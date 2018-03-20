@@ -1,4 +1,4 @@
-#!/usr/bin/pỳthon
+#!/usr/bin/python
 # file encoding is utf8
 
 import os
