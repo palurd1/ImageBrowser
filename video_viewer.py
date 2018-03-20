@@ -6,26 +6,41 @@ import sys
 import subprocess
 import glob
 
-##############################################################
+info="""
+video_viewer.py by palurd1. https://github.com/palurd1/ImageBrowser
+Distributed under GPLv3.
+
+Python script that takes a video file as input, creates a folder called
+'[videofile]_frames' and stores there all frames as images.  The script also
+generates a viewer file called VIEWER_[videoname].html with a built-in
+JavaScript to browse through the images.
+
+This script runs on python3.6 and uses ffmpeg and ffprobe to process the
+video file. The HTML viewer should be compatible with most browsers.
+"""
+
+
+################################################################################
 # sanity check
 if len(sys.argv) != 2:
-    print("Error. Usage ./{} videoname".format(sys.argv[0]))
+    print("Error. Usage: python {} videoname".format(sys.argv[0]))
+    print(info)
     quit()
 input_file_name = sys.argv[1]
-##############################################################
+################################################################################
 
 
-##############################################################
+################################################################################
 # SCRIPT PARAMETERS
 # parameter to control the image quality, 2 to 31 (lower is better)
 IMAGE_QUALITY = 2
 FRAMES_DIR = input_file_name + '_frames'
 OUTPUT_BASENAME = os.path.join(FRAMES_DIR, os.path.basename(input_file_name))
 HTML_FILE_NAME = 'VIEWER_' + os.path.basename(input_file_name) + '.html'
-##############################################################
+################################################################################
 
 
-##############################################################
+################################################################################
 # https://stackoverflow.com/questions/1806278/convert-fraction-to-float
 def convert_to_float(frac_str):
     try:
@@ -44,7 +59,7 @@ def convert_to_float(frac_str):
         else:
             sign_mult = 1
         return float(leading) + sign_mult * (float(num) / float(denom))
-##############################################################
+################################################################################
 
 
 if not os.path.isdir(FRAMES_DIR):
@@ -87,7 +102,7 @@ command = [
         '{}_%d.jpg'.format(OUTPUT_BASENAME)]
 
 print(" ".join(command))
-#subprocess.run(command)
+subprocess.run(command)
 
 # get all files created
 frames = sorted(glob.glob(OUTPUT_BASENAME + '*.jpg'))
